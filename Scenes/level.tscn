@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3 uid="uid://ifbcbbmgmi5g"]
+
+[ext_resource type="Script" uid="uid://kpyx5cp2ocps" path="res://Scenes/level.gd" id="1_81xng"]
+[ext_resource type="Texture2D" uid="uid://clcet58xg75qf" path="res://Assets/Backgrounds/spacebg.png" id="1_k5f4k"]
+[ext_resource type="PackedScene" uid="uid://dsv163jiddyoi" path="res://Scenes/player.tscn" id="1_tumq0"]
+[ext_resource type="PackedScene" uid="uid://wjr70pgxy4pd" path="res://Scenes/meteor.tscn" id="3_6phgx"]
+[ext_resource type="PackedScene" uid="uid://0igkcvgd5np0" path="res://Scenes/ui.tscn" id="5_wqkje"]
+[ext_resource type="AudioStream" uid="uid://bhgq6v8ix3du3" path="res://Assets/Audio/Crystal Skies.mp3" id="6_0f350"]
+[ext_resource type="AudioStream" uid="uid://bofdq33abfqae" path="res://Assets/Bonus/sfx_laser2.ogg" id="7_8c0lf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6phgx"]
+size = Vector2(45.5, 732)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_81xng"]
+size = Vector2(1201, 43)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wqkje"]
+size = Vector2(1167, 45)
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_81xng")
+
+[node name="BackGround" type="Sprite2D" parent="."]
+position = Vector2(572.5, 327)
+scale = Vector2(0.791016, 0.693359)
+texture = ExtResource("1_k5f4k")
+metadata/_edit_lock_ = true
+
+[node name="Player" parent="." instance=ExtResource("1_tumq0")]
+position = Vector2(551, 499)
+
+[node name="Meteor" parent="." instance=ExtResource("3_6phgx")]
+position = Vector2(246, 152)
+metadata/_edit_lock_ = true
+
+[node name="Walls" type="StaticBody2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-19.5, 326)
+shape = SubResource("RectangleShape2D_6phgx")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1173.75, 321)
+shape = SubResource("RectangleShape2D_6phgx")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(600.5, -18.5)
+shape = SubResource("RectangleShape2D_81xng")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(585.5, 668.5)
+shape = SubResource("RectangleShape2D_wqkje")
+
+[node name="MeteorTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="SpawnMeteors" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="SpawnLaser" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="UI" parent="." instance=ExtResource("5_wqkje")]
+
+[node name="GameMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_0f350")
+volume_db = 5.0
+autoplay = true
+
+[node name="LaserSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_8c0lf")
+volume_db = -15.0
+
+[connection signal="laser" from="Player" to="." method="_on_player_laser"]
+[connection signal="timeout" from="MeteorTimer" to="." method="_on_meteor_timer_timeout"]

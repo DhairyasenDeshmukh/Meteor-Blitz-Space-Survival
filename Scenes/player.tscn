@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsv163jiddyoi"]
+
+[ext_resource type="Script" uid="uid://cxxwj7j2d6m7j" path="res://Scenes/player.gd" id="1_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://sgmdqjjgtkdf" path="res://Assets/PNG/playerShip2_red.png" id="1_v0iea"]
+
+[node name="Player" type="CharacterBody2D"]
+collision_mask = 6
+script = ExtResource("1_cvnsp")
+
+[node name="PlayerImage" type="Sprite2D" parent="."]
+texture = ExtResource("1_v0iea")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-4, -38, 3, -38, 15, -16, 55, 5, 37, 35, 0, 38, -38, 35, -57, 6, -13, -18)
+
+[node name="LaserStartPos" type="Marker2D" parent="."]
+position = Vector2(0, -66)
